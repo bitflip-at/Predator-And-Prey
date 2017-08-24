@@ -28,6 +28,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.Axis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -48,7 +49,7 @@ public class MainScreenController implements Initializable {
     private Integer generation;
     private Integer predators;
     private Integer preys;
-    
+
     private XYChart.Series prey;
     private XYChart.Series pred;
     
@@ -62,7 +63,12 @@ public class MainScreenController implements Initializable {
     private Label PreyLabel;
     
     @FXML
-    private LineChart<Integer, Integer> chart;
+    private LineChart<Number, Number> chart;
+    
+    @FXML
+    private NumberAxis xAxis;
+    @FXML
+    private NumberAxis yAxis;
     
     @FXML
     private Pane frame;
@@ -82,12 +88,20 @@ public class MainScreenController implements Initializable {
         generation = 0;
         predators = 0;
         preys = 0;
+       
+        //xAxis.setLabel("Generations");
         
         prey = new XYChart.Series();
         pred = new XYChart.Series();
-            
+                    
         prey.setName("Preys");
         pred.setName("Predators");
+        
+        chart.getData().add(prey);
+        chart.getData().add(pred);
+       
+        chart.setTitle("Population");
+        chart.setCreateSymbols(false);
         
         this.board = board;
     }
@@ -99,10 +113,12 @@ public class MainScreenController implements Initializable {
         preys = board.getP(true);
         predators = board.getP(false);
         
+        prey.getData().add(new XYChart.Data(generation, preys));
+        pred.getData().add(new XYChart.Data(generation, predators));
+        
         GenLabel.setText(generation.toString());
         PredLabel.setText(predators.toString());
         PreyLabel.setText(preys.toString());
-     
     }
 
     @Override

@@ -66,7 +66,7 @@ public class PredatorAndPrey extends Application {
                iterateBoard();
                updateUI();
             }
-        }), new KeyFrame(Duration.millis(1000)));
+        }), new KeyFrame(Duration.millis(100)));
         
         timeline.setCycleCount(Timeline.INDEFINITE);
         

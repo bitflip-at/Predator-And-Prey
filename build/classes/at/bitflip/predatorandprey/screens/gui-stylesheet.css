@@ -41,3 +41,27 @@ THE SOFTWARE.
     -fx-border-color: black; 
     -fx-border-width: 0.1;
 }
+
+.chart{
+    
+}
+
+.chart-legend {
+   -fx-background-color:  transparent;
+   -fx-padding: 20px;
+}
+ 
+.chart-legend-item-symbol{
+   -fx-background-radius: 0;
+}
+ 
+.chart-legend-item{
+    -fx-text-fill: #191970;
+}
+
+.default-color0.chart-series-line { -fx-stroke: #00ff00; }
+.default-color1.chart-series-line { -fx-stroke: #ff0000; }
+
+.default-color0.chart-legend-item { -fx-stroke: #00ff00; }
+.default-color1.chart-legend-item { -fx-stroke: #ff0000; }
+
