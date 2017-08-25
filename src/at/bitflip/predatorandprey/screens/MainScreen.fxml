@@ -59,7 +59,7 @@
             <Slider fx:id="predSlider" onDragDetected="#onPredSliderAction" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <ButtonBar layoutX="25.0" layoutY="460.0" prefHeight="40.0" prefWidth="200.0">
+      <ButtonBar layoutX="25.0" layoutY="460.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0">
         <buttons>
           <Button fx:id="runBtn" mnemonicParsing="false" onAction="#onRunBtnAction" text="Run" />
             <Button fx:id="pauseBtn" mnemonicParsing="false" onAction="#onPauseBtnAction" text="Pause" />
@@ -67,5 +67,7 @@
         </buttons>
       </ButtonBar>
       <Pane fx:id="frame" layoutX="43.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
+      <Label layoutX="904.0" layoutY="17.0" text="FPS:" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="15.0" />
+      <Label fx:id="fpsLabel" layoutX="973.0" layoutY="17.0" text="Label" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="15.0" />
    </children>
 </AnchorPane>

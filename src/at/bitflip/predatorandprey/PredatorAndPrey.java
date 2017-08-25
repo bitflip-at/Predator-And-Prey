@@ -25,6 +25,7 @@ package at.bitflip.predatorandprey;
 
 import at.bitflip.predatorandprey.screens.Board;
 import at.bitflip.predatorandprey.screens.MainScreenController;
+import at.bitflip.predatorandprey.utils.FpsCalculator;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,8 +58,10 @@ public class PredatorAndPrey extends Application {
     private Board board;
     private MainScreenController controller;
     
-    public int fps = 100;
+    public int timer = 50;
     public boolean running = true;
+    public static Integer calculatedFPS = 0;
+    private static int framesRendered = 0;
     
     @Override
     public void start(Stage primaryStage) {
@@ -69,7 +72,7 @@ public class PredatorAndPrey extends Application {
                iterateBoard();
                updateUI();
             }
-        }), new KeyFrame(Duration.millis(fps)));
+        }), new KeyFrame(Duration.millis(timer)));
         
         timeline.setCycleCount(Timeline.INDEFINITE);
         
@@ -113,14 +116,17 @@ public class PredatorAndPrey extends Application {
         
         primaryStage.setTitle("Predator and Prey");
         primaryStage.setScene(scene);
+        primaryStage.setOnCloseRequest(e -> {FpsCalculator.kill();});
         primaryStage.show();
         
         timeline.play();
     }
     
     public void iterateBoard(){
-        if(running)
+        if(running){
             board.update();
+            framesRendered++;
+        }
     }
     
     public void updateUI(){
@@ -131,7 +137,24 @@ public class PredatorAndPrey extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+
+        Thread thread = new Thread(new FpsCalculator());
+        thread.start();
+        
+        
         launch(args);
+    }
+ 
+    public static synchronized int getFramesCount(){
+        return framesRendered;
+    }
+    
+    public static synchronized void setFramesCount(int value){
+        framesRendered = value;
+    }
+    
+    public static void setCalculatedFps(int value){
+        calculatedFPS = value;
     }
     
 }

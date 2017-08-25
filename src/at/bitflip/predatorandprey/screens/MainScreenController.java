@@ -61,6 +61,8 @@ public class MainScreenController implements Initializable {
     private Label PredLabel;
     @FXML
     private Label PreyLabel;
+    @FXML
+    private Label fpsLabel;
     
     @FXML
     private LineChart<Number, Number> chart;
@@ -129,6 +131,7 @@ public class MainScreenController implements Initializable {
     @FXML
     public void onStepBtnAction(ActionEvent event){
         board.update();
+        PredatorAndPrey.setFramesCount(PredatorAndPrey.getFramesCount() + 1);
     }
     
     @FXML
@@ -148,6 +151,7 @@ public class MainScreenController implements Initializable {
         GenLabel.setText(generation.toString());
         PredLabel.setText(predators.toString());
         PreyLabel.setText(preys.toString());
+        fpsLabel.setText(Main.calculatedFPS.toString());
         
         if(Main.running)
             stepBtn.setDisable(true);
