@@ -57,8 +57,8 @@ public class Board {
     }
     
     public void update(){
-        //board = automata.step();
-        //render();
+        board = automata.step();
+        render();
     }
     
     private void render(){

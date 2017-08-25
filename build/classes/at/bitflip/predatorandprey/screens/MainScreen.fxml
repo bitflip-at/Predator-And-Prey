@@ -55,8 +55,8 @@
             <Label text="Spawnrate" />
             <Label text="Predator" GridPane.rowIndex="1" />
             <Label text="Prey" GridPane.rowIndex="2" />
-            <Slider fx:id="preySlider" onDragDetected="#onPreySliderAction" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Slider fx:id="predSlider" onDragDetected="#onPredSliderAction" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Slider fx:id="preySlider" onDragDetected="#onPreySliderAction" value="75.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Slider fx:id="predSlider" onDragDetected="#onPredSliderAction" value="25.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
       <ButtonBar layoutX="25.0" layoutY="460.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0">

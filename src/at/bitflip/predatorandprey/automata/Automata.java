@@ -23,7 +23,12 @@
  */
 package at.bitflip.predatorandprey.automata;
 
+import at.bitflip.predatorandprey.automata.creatures.Creature;
+import at.bitflip.predatorandprey.automata.creatures.Predator;
+import at.bitflip.predatorandprey.automata.creatures.Prey;
 import at.bitflip.predatorandprey.tile.Tile;
+import at.bitflip.predatorandprey.tile.TileType;
+import java.util.Random;
 
 /**
  *
@@ -41,18 +46,24 @@ public class Automata {
     private double preySpawnRate;
     private double predSpawnRate;
     
+    private Creature[][] field;
+    
     public Automata(int sizeX, int sizeY, double preySpawnRate, double predSpawnRate){
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         this.preySpawnRate = preySpawnRate;
         this.predSpawnRate = predSpawnRate;
+       
+        initializeField();
         
         generation = 0;
     }
     
     public Tile[][] step(){
         
-        return null;
+        updateField();
+        
+        return Field2Tile();
     }
 
     public void updateValues(double preySpawnRate, double predSpawnRate){
@@ -78,6 +89,53 @@ public class Automata {
     
     public int getGeneration(){
         return generation;
+    }
+    
+    private void initializeField(){
+        field = new Creature[sizeX][sizeY];
+        
+        Random rand = new Random(System.nanoTime());
+        
+        for(int i = 0; i < sizeX; i++){
+            for(int j = 0; j < sizeY; j++){
+                double r = rand.nextDouble() * 200;
+                
+                if(r <= preySpawnRate){
+                    field[i][j] = new Prey();
+                }else if(r >= (200.0 - predSpawnRate)){
+                    field[i][j] = new Predator();
+                }else{
+                    field[i][j] = null;
+                }
+            }
+        }
+        
+    }
+    
+    private void updateField(){
+        
+    }
+    
+    private Tile[][] Field2Tile(){
+               Tile[][] tile = new Tile[sizeX][sizeY];
+        
+        for(int i = 0; i < sizeX; i++){
+            for(int j = 0; j < sizeY; j++){
+                Tile t;
+                
+                if(field[i][j] instanceof Prey){
+                    t = new Tile(TileType.PREY);
+                }else if(field[i][j] instanceof Predator){
+                    t = new Tile(TileType.PREDATOR);
+                }else{
+                    t = new Tile(TileType.EMPTY);
+                }
+                
+                tile[i][j] = t;
+            }
+        }
+        
+        return tile;
     }
     
 }
