@@ -146,53 +146,47 @@ public class Automata {
                 int x = (int) Pos.getX();
                 int y = (int) Pos.getY();
 
-                switch (tmpField[x][y]) {
-                    case EMPTY:
-                        tmpField[x][y] = type;
-                        tmpHealth[x][y] = hp;
-                        break;
-                    case PREY:
-                        if (type == TileType.PREY) {
-                            Pair pos = getNextFreePos(x, y);
-                            if (pos != null) {
-                                tmpField[x][y] = type;
-                                tmpHealth[x][y] = hp;
+                if (type != TileType.EMPTY) {
+                    switch (tmpField[x][y]) {
+                        case EMPTY:
+                            tmpField[x][y] = type;
+                            tmpHealth[x][y] = hp;
+                            break;
+                        case PREY:
+                            if (type == TileType.PREY) {
+                                Pair pos = getNextFreePos(x, y);
+                                if (pos != null) {
+                                    tmpField[x][y] = type;
+                                    tmpHealth[x][y] = hp;
+                                } else {
+                                    preyCount--;
+                                }
                             } else {
+                                tmpHealth[x][y] += hp;
+                                tmpField[x][y] = TileType.PREDATOR;
                                 preyCount--;
                             }
-                        } else {
-                            tmpHealth[x][y] += hp;
-                            tmpField[x][y] = TileType.PREDATOR;
-                            preyCount--;
-                        }
-                        break;
-                    case PREDATOR:
-                        if (type == TileType.PREDATOR) {
-                            Pair pos = getNextFreePos(x, y);
-                            if (pos != null) {
-                                tmpField[x][y] = type;
-                                tmpHealth[x][y] = hp;
+                            break;
+                        case PREDATOR:
+                            if (type == TileType.PREDATOR) {
+                                Pair pos = getNextFreePos(x, y);
+                                if (pos != null) {
+                                    tmpField[x][y] = type;
+                                    tmpHealth[x][y] = hp;
+                                } else {
+                                    predCount--;
+                                }
                             } else {
-                                predCount--;
+                                tmpHealth[x][y] += hp;
+                                tmpField[x][y] = TileType.PREDATOR;
+                                preyCount--;
                             }
-                        } else {
-                            tmpHealth[x][y] += hp;
-                            tmpField[x][y] = TileType.PREDATOR;
-                            preyCount--;
-                        }
-                        break;
+                            break;
+                    }
                 }
             }
         }
 
-        /*
-        for (int i = 0; i < sizeX; i++) {
-            for (int j = 0; j < sizeY; j++) {
-                health[i][j] = tmpHealth[i][j];
-                field[i][j] = tmpField[i][j];
-            }
-        }
-         */
         health = tmpHealth.clone();
         field = tmpField.clone();
 
