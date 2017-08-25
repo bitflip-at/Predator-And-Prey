@@ -23,6 +23,7 @@
  */
 package at.bitflip.predatorandprey.screens;
 
+import at.bitflip.predatorandprey.PredatorAndPrey;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -42,7 +43,7 @@ import javafx.scene.layout.Pane;
  * @author Emanuel Gitterle <emanuel.gitterle@bitflip.at>
  */
 public class MainScreenController implements Initializable {
-
+    
     private Integer generation;
     private Integer predators;
     private Integer preys;
@@ -51,6 +52,8 @@ public class MainScreenController implements Initializable {
     private XYChart.Series predData;
     
     private Board board;
+    
+    private PredatorAndPrey Main;
     
     @FXML
     private Label GenLabel;
@@ -86,7 +89,7 @@ public class MainScreenController implements Initializable {
      * Initializes the controller class.
      */
     @FXML
-    public void initialize(Board board) {
+    public void initialize(Board board, PredatorAndPrey Main) {
         generation = 0;
         predators = 0;
         preys = 0;
@@ -104,6 +107,7 @@ public class MainScreenController implements Initializable {
         chart.setCreateSymbols(false);
                 
         this.board = board;
+        this.Main = Main;
     }
     
     @FXML
@@ -115,10 +119,26 @@ public class MainScreenController implements Initializable {
     public void onPredSliderAction(ActionEvent event){
         board.updateValues(preySlider.getValue(), predSlider.getValue());
     }
+    
+    @FXML
+    public void onPauseBtnAction(ActionEvent event){
+        Main.running = false;
+        stepBtn.setDisable(false);
+    }
+    
+    @FXML
+    public void onStepBtnAction(ActionEvent event){
+        board.update();
+    }
+    
+    @FXML
+    public void onRunBtnAction(ActionEvent event){
+        Main.running = true;
+    }
    
     public void update(){
-        generation++;
         
+        generation = board.getGeneration();
         preys = board.getPreyCount();
         predators = board.getPredCount();
         
@@ -128,6 +148,9 @@ public class MainScreenController implements Initializable {
         GenLabel.setText(generation.toString());
         PredLabel.setText(predators.toString());
         PreyLabel.setText(preys.toString());
+        
+        if(Main.running)
+            stepBtn.setDisable(true);
     }
 
     @Override

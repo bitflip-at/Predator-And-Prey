@@ -61,9 +61,9 @@
       </GridPane>
       <ButtonBar layoutX="25.0" layoutY="460.0" prefHeight="40.0" prefWidth="200.0">
         <buttons>
-          <Button fx:id="runBtn" mnemonicParsing="false" text="Run" />
-            <Button fx:id="pauseBtn" mnemonicParsing="false" text="Pause" />
-            <Button fx:id="stepBtn" mnemonicParsing="false" text="Step" />
+          <Button fx:id="runBtn" mnemonicParsing="false" onAction="#onRunBtnAction" text="Run" />
+            <Button fx:id="pauseBtn" mnemonicParsing="false" onAction="#onPauseBtnAction" text="Pause" />
+            <Button fx:id="stepBtn" mnemonicParsing="false" onAction="#onStepBtnAction" text="Step" />
         </buttons>
       </ButtonBar>
       <Pane fx:id="frame" layoutX="43.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />

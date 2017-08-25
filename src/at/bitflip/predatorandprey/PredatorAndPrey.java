@@ -57,6 +57,9 @@ public class PredatorAndPrey extends Application {
     private Board board;
     private MainScreenController controller;
     
+    public int fps = 100;
+    public boolean running = true;
+    
     @Override
     public void start(Stage primaryStage) {
         
@@ -66,7 +69,7 @@ public class PredatorAndPrey extends Application {
                iterateBoard();
                updateUI();
             }
-        }), new KeyFrame(Duration.millis(100)));
+        }), new KeyFrame(Duration.millis(fps)));
         
         timeline.setCycleCount(Timeline.INDEFINITE);
         
@@ -104,7 +107,7 @@ public class PredatorAndPrey extends Application {
         
         board = new Board(controller, boardMap, 50, 40);
         
-        controller.initialize(board);
+        controller.initialize(board, this);
         
         Scene scene = new Scene(root);
         
@@ -116,7 +119,8 @@ public class PredatorAndPrey extends Application {
     }
     
     public void iterateBoard(){
-        board.update();
+        if(running)
+            board.update();
     }
     
     public void updateUI(){

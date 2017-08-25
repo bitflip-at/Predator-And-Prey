@@ -36,6 +36,7 @@ public class Automata {
     
     private int preyCount;
     private int predCount;
+    private int generation;
     
     private double preySpawnRate;
     private double predSpawnRate;
@@ -45,6 +46,8 @@ public class Automata {
         this.sizeY = sizeY;
         this.preySpawnRate = preySpawnRate;
         this.predSpawnRate = predSpawnRate;
+        
+        generation = 0;
     }
     
     public Tile[][] step(){
@@ -73,5 +76,8 @@ public class Automata {
         this.predCount = predCount;
     }
     
+    public int getGeneration(){
+        return generation;
+    }
     
 }

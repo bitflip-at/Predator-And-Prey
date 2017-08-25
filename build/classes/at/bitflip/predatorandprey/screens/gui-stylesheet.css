@@ -26,6 +26,10 @@ THE SOFTWARE.
     Author     : Emanuel Gitterle <emanuel.gitterle@bitflip.at>
 */
 
+.button:disabled > * {
+    -fx-opacity: 1.0;
+}
+
 .chart-legend {
    -fx-background-color:  transparent;
    -fx-padding: 20px;

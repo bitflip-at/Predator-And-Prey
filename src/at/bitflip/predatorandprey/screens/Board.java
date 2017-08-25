@@ -57,9 +57,8 @@ public class Board {
     }
     
     public void update(){
-        board = automata.step();
-        
-        render();
+        //board = automata.step();
+        //render();
     }
     
     private void render(){
@@ -86,4 +85,7 @@ public class Board {
         return automata.getPredCount();
     }
     
+    public int getGeneration(){
+        return automata.getGeneration();
+    }
 }
