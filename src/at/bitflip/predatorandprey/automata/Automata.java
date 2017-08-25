@@ -35,9 +35,9 @@ import java.util.Random;
 public class Automata {
 
     private static final int STARTHP = 100;
-    private static final int REPLICATEHP = 200;
+    private static final int REPLICATEHP = 210;
     private static final int PREYPTURN = 10;
-    private static final int PREDPTURN = -5;
+    private static final int PREDPTURN = -10;
 
     private final int sizeX;
     private final int sizeY;
@@ -60,7 +60,7 @@ public class Automata {
 
         preyCount = 0;
         predCount = 0;
-        generation = 0;
+        generation = -1;
 
         initializeField();
     }
@@ -154,7 +154,7 @@ public class Automata {
                             break;
                         case PREY:
                             if (type == TileType.PREY) {
-                                Pair pos = getNextFreePos(x, y);
+                                Pair pos = getNextFreePos(x, y, tmpField);
                                 if (pos != null) {
                                     tmpField[x][y] = type;
                                     tmpHealth[x][y] = hp;
@@ -169,7 +169,7 @@ public class Automata {
                             break;
                         case PREDATOR:
                             if (type == TileType.PREDATOR) {
-                                Pair pos = getNextFreePos(x, y);
+                                Pair pos = getNextFreePos(x, y, tmpField);
                                 if (pos != null) {
                                     tmpField[x][y] = type;
                                     tmpHealth[x][y] = hp;
@@ -204,7 +204,7 @@ public class Automata {
                 }
 
                 if (health[i][j] > REPLICATEHP) {
-                    Pair pos = getNextFreePos(i, j);
+                    Pair pos = getNextFreePos(i, j, field);
                     if (pos != null) {
                         int x = (int) pos.getX();
                         int y = (int) pos.getY();
@@ -240,7 +240,7 @@ public class Automata {
         }
     }
 
-    private Pair getNextFreePos(int i, int j) {
+    private Pair getNextFreePos(int i, int j, TileType field[][]) {
 
         for (int x = (i - 1); x < (i + 1); x++) {
             for (int y = (j - 1); y < (j + 1); y++) {
