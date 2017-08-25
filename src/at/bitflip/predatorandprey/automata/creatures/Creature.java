@@ -35,9 +35,9 @@ public abstract class Creature {
         
     }
     
-    public Pair move(){
-        
-    }
+    //public Pair move(){
+    //    
+    //}
     
     public void replicate(){
         

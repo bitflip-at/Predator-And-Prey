@@ -37,10 +37,14 @@ public class Automata {
     private int preyCount;
     private int predCount;
     
+    private double preySpawnRate;
+    private double predSpawnRate;
     
     public Automata(int sizeX, int sizeY, double preySpawnRate, double predSpawnRate){
         this.sizeX = sizeX;
         this.sizeY = sizeY;
+        this.preySpawnRate = preySpawnRate;
+        this.predSpawnRate = predSpawnRate;
     }
     
     public Tile[][] step(){
@@ -48,6 +52,11 @@ public class Automata {
         return null;
     }
 
+    public void updateValues(double preySpawnRate, double predSpawnRate){
+        this.preySpawnRate = preySpawnRate;
+        this.predSpawnRate = predSpawnRate;
+    }
+    
     public int getPreyCount() {
         return preyCount;
     }

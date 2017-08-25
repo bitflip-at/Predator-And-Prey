@@ -26,18 +26,6 @@ THE SOFTWARE.
     Author     : Emanuel Gitterle <emanuel.gitterle@bitflip.at>
 */
 
-.prey {
-    -fx-background-color: green; 
-    -fx-border-color: black; 
-    -fx-border-width: 0.1;
-}
-
-.predator {
-    -fx-background-color: red; 
-    -fx-border-color: black; 
-    -fx-border-width: 0.1;
-}
-
 .chart-legend {
    -fx-background-color:  transparent;
    -fx-padding: 20px;

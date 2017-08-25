@@ -25,6 +25,7 @@ package at.bitflip.predatorandprey.screens;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
@@ -105,6 +106,15 @@ public class MainScreenController implements Initializable {
         this.board = board;
     }
     
+    @FXML
+    public void onPreySliderAction(ActionEvent event){
+        board.updateValues(preySlider.getValue(), predSlider.getValue());
+    }
+    
+    @FXML
+    public void onPredSliderAction(ActionEvent event){
+        board.updateValues(preySlider.getValue(), predSlider.getValue());
+    }
    
     public void update(){
         generation++;

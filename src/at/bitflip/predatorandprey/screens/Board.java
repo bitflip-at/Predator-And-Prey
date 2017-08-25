@@ -74,6 +74,10 @@ public class Board {
         }
     }
     
+    public void updateValues(double preySpawnRate, double predSpawnRate){
+        automata.updateValues(preySpawnRate, predSpawnRate);
+    }
+    
     public int getPreyCount(){
         return automata.getPreyCount();
     }
