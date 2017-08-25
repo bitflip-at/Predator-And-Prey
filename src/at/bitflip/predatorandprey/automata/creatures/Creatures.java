@@ -27,6 +27,8 @@ package at.bitflip.predatorandprey.automata.creatures;
  *
  * @author Emanuel Gitterle <emanuel.gitterle@bitflip.at>
  */
-public class Prey extends Creature {
-    
+public enum Creatures {
+    PREY,
+    PREDATOR,
+    EMPTY
 }

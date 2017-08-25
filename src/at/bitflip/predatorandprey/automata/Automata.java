@@ -23,9 +23,6 @@
  */
 package at.bitflip.predatorandprey.automata;
 
-import at.bitflip.predatorandprey.automata.creatures.Creature;
-import at.bitflip.predatorandprey.automata.creatures.Predator;
-import at.bitflip.predatorandprey.automata.creatures.Prey;
 import at.bitflip.predatorandprey.tile.Tile;
 import at.bitflip.predatorandprey.tile.TileType;
 import java.util.Random;
@@ -35,42 +32,44 @@ import java.util.Random;
  * @author Emanuel Gitterle <emanuel.gitterle@bitflip.at>
  */
 public class Automata {
-    
+
     private final int sizeX;
     private final int sizeY;
-    
+
     private int preyCount;
     private int predCount;
     private int generation;
-    
+
     private double preySpawnRate;
     private double predSpawnRate;
-    
-    private Creature[][] field;
-    
-    public Automata(int sizeX, int sizeY, double preySpawnRate, double predSpawnRate){
+
+    private TileType[][] field;
+
+    public Automata(int sizeX, int sizeY, double preySpawnRate, double predSpawnRate) {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         this.preySpawnRate = preySpawnRate;
         this.predSpawnRate = predSpawnRate;
-       
-        initializeField();
-        
+
+        preyCount = 0;
+        predCount = 0;
         generation = 0;
+
+        initializeField();
     }
-    
-    public Tile[][] step(){
-        
+
+    public Tile[][] step() {
+
         updateField();
-        
+
         return Field2Tile();
     }
 
-    public void updateValues(double preySpawnRate, double predSpawnRate){
+    public void updateValues(double preySpawnRate, double predSpawnRate) {
         this.preySpawnRate = preySpawnRate;
         this.predSpawnRate = predSpawnRate;
     }
-    
+
     public int getPreyCount() {
         return preyCount;
     }
@@ -86,56 +85,48 @@ public class Automata {
     public void setPredCount(int predCount) {
         this.predCount = predCount;
     }
-    
-    public int getGeneration(){
+
+    public int getGeneration() {
         return generation;
     }
-    
-    private void initializeField(){
-        field = new Creature[sizeX][sizeY];
-        
+
+    private void initializeField() {
+        field = new TileType[sizeX][sizeY];
+
         Random rand = new Random(System.nanoTime());
-        
-        for(int i = 0; i < sizeX; i++){
-            for(int j = 0; j < sizeY; j++){
+
+        for (int i = 0; i < sizeX; i++) {
+            for (int j = 0; j < sizeY; j++) {
                 double r = rand.nextDouble() * 200;
-                
-                if(r <= preySpawnRate){
-                    field[i][j] = new Prey();
-                }else if(r >= (200.0 - predSpawnRate)){
-                    field[i][j] = new Predator();
-                }else{
-                    field[i][j] = null;
+
+                if (r <= preySpawnRate) {
+                    field[i][j] = TileType.PREY;
+                    preyCount++;
+                } else if (r >= (200.0 - predSpawnRate)) {
+                    field[i][j] = TileType.PREDATOR;
+                    predCount++;
+                } else {
+                    field[i][j] = TileType.EMPTY;
                 }
             }
         }
-        
+
     }
-    
-    private void updateField(){
-        
+
+    private void updateField() {
+
     }
-    
-    private Tile[][] Field2Tile(){
-               Tile[][] tile = new Tile[sizeX][sizeY];
-        
-        for(int i = 0; i < sizeX; i++){
-            for(int j = 0; j < sizeY; j++){
-                Tile t;
-                
-                if(field[i][j] instanceof Prey){
-                    t = new Tile(TileType.PREY);
-                }else if(field[i][j] instanceof Predator){
-                    t = new Tile(TileType.PREDATOR);
-                }else{
-                    t = new Tile(TileType.EMPTY);
-                }
-                
-                tile[i][j] = t;
+
+    private Tile[][] Field2Tile() {
+        Tile[][] tile = new Tile[sizeX][sizeY];
+
+        for (int i = 0; i < sizeX; i++) {
+            for (int j = 0; j < sizeY; j++) {
+                tile[i][j] = new Tile(field[i][j]);
             }
         }
-        
+
         return tile;
     }
-    
+
 }
