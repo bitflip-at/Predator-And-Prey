@@ -37,7 +37,7 @@ public class Automata {
     private static final int STARTHP = 100;
     private static final int REPLICATEHP = 200;
     private static final int PREYPTURN = 10;
-    private static final int PREDPTURN = -1;
+    private static final int PREDPTURN = -5;
 
     private final int sizeX;
     private final int sizeY;
@@ -124,6 +124,7 @@ public class Automata {
     }
 
     private void updateField() {
+
         TileType[][] tmpField = new TileType[sizeX][sizeX];
         int[][] tmpHealth = new int[sizeX][sizeY];
         generation++;
@@ -137,11 +138,11 @@ public class Automata {
 
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
+
                 TileType type = field[i][j];
                 int hp = health[i][j];
 
                 Pair Pos = move(i, j);
-
                 int x = (int) Pos.getX();
                 int y = (int) Pos.getY();
 
@@ -152,26 +153,30 @@ public class Automata {
                         break;
                     case PREY:
                         if (type == TileType.PREY) {
-                            Pair pos = getNextFreePos(i, j);
+                            Pair pos = getNextFreePos(x, y);
                             if (pos != null) {
                                 tmpField[x][y] = type;
                                 tmpHealth[x][y] = hp;
+                            } else {
+                                preyCount--;
                             }
                         } else {
-                            tmpHealth[x][y] += health[i][j];
+                            tmpHealth[x][y] += hp;
                             tmpField[x][y] = TileType.PREDATOR;
                             preyCount--;
                         }
                         break;
                     case PREDATOR:
                         if (type == TileType.PREDATOR) {
-                            Pair pos = getNextFreePos(i, j);
+                            Pair pos = getNextFreePos(x, y);
                             if (pos != null) {
                                 tmpField[x][y] = type;
                                 tmpHealth[x][y] = hp;
+                            } else {
+                                predCount--;
                             }
                         } else {
-                            tmpHealth[x][y] += health[i][j];
+                            tmpHealth[x][y] += hp;
                             tmpField[x][y] = TileType.PREDATOR;
                             preyCount--;
                         }
@@ -180,12 +185,16 @@ public class Automata {
             }
         }
 
+        /*
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
                 health[i][j] = tmpHealth[i][j];
                 field[i][j] = tmpField[i][j];
             }
         }
+         */
+        health = tmpHealth.clone();
+        field = tmpField.clone();
 
         // update health and replicate if possible
         for (int i = 0; i < sizeX; i++) {
@@ -203,11 +212,13 @@ public class Automata {
                 if (health[i][j] > REPLICATEHP) {
                     Pair pos = getNextFreePos(i, j);
                     if (pos != null) {
-                        field[(int) pos.getX()][(int) pos.getY()] = field[i][j];
-                        health[(int) pos.getX()][(int) pos.getY()] = STARTHP;
+                        int x = (int) pos.getX();
+                        int y = (int) pos.getY();
+                        field[x][y] = field[i][j];
+                        health[x][y] = STARTHP;
                         health[i][j] -= STARTHP;
 
-                        switch (field[i][j]) {
+                        switch (field[x][y]) {
                             case PREY:
                                 preyCount++;
                                 break;
