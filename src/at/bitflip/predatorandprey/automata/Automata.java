@@ -68,7 +68,6 @@ public class Automata {
     public Tile[][] step() {
 
         updateField();
-
         return Field2Tile();
     }
 
@@ -143,43 +142,50 @@ public class Automata {
 
                 Pair Pos = move(i, j);
 
-                switch (tmpField[i][j]) {
+                int x = (int) Pos.getX();
+                int y = (int) Pos.getY();
+
+                switch (tmpField[x][y]) {
                     case EMPTY:
-                        tmpField[i][j] = type;
-                        tmpHealth[i][j] = hp;
+                        tmpField[x][y] = type;
+                        tmpHealth[x][y] = hp;
                         break;
                     case PREY:
                         if (type == TileType.PREY) {
                             Pair pos = getNextFreePos(i, j);
                             if (pos != null) {
-                                tmpField[i][j] = type;
-                                tmpHealth[i][j] = hp;
+                                tmpField[x][y] = type;
+                                tmpHealth[x][y] = hp;
                             }
                         } else {
-                            tmpHealth[i][j] += health[i][j];
+                            tmpHealth[x][y] += health[i][j];
+                            tmpField[x][y] = TileType.PREDATOR;
+                            preyCount--;
                         }
                         break;
                     case PREDATOR:
                         if (type == TileType.PREDATOR) {
                             Pair pos = getNextFreePos(i, j);
                             if (pos != null) {
-                                tmpField[i][j] = type;
-                                tmpHealth[i][j] = hp;
+                                tmpField[x][y] = type;
+                                tmpHealth[x][y] = hp;
                             }
                         } else {
-                            tmpHealth[i][j] += health[i][j];
+                            tmpHealth[x][y] += health[i][j];
+                            tmpField[x][y] = TileType.PREDATOR;
+                            preyCount--;
                         }
-                        break;
-                    default:
-                        tmpField[i][j] = type;
-                        tmpHealth[i][j] = hp;
                         break;
                 }
             }
         }
 
-        health = tmpHealth;
-        field = tmpField;
+        for (int i = 0; i < sizeX; i++) {
+            for (int j = 0; j < sizeY; j++) {
+                health[i][j] = tmpHealth[i][j];
+                field[i][j] = tmpField[i][j];
+            }
+        }
 
         // update health and replicate if possible
         for (int i = 0; i < sizeX; i++) {

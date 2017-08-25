@@ -53,33 +53,32 @@ import javafx.util.Duration;
  * @author emanu
  */
 public class PredatorAndPrey extends Application {
-    
+
     private Map<String, StackPane> boardMap = new HashMap<>();
     private Board board;
     private MainScreenController controller;
-    
+
     public int timer = 50;
-    public boolean running = true;
+    public boolean running = false;
     public static Integer calculatedFPS = 0;
     private static int framesRendered = 0;
-    
+
     @Override
     public void start(Stage primaryStage) {
-        
+
         final Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, new EventHandler() {
             @Override
             public void handle(Event event) {
-               iterateBoard();
-               updateUI();
+                iterateBoard();
+                updateUI();
             }
         }), new KeyFrame(Duration.millis(timer)));
-        
+
         timeline.setCycleCount(Timeline.INDEFINITE);
-        
-        
+
         AnchorPane root = null;
         try {
-            
+
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(PredatorAndPrey.class.getResource("screens/MainScreen.fxml"));
             root = (AnchorPane) loader.load();
@@ -87,49 +86,50 @@ public class PredatorAndPrey extends Application {
         } catch (IOException ex) {
             Logger.getLogger(PredatorAndPrey.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
         Pane frame = null;
-        
+
         ObservableList<Node> children = root.getChildren();
-        for(Node node : children){
-            if(node instanceof Pane && !(node instanceof GridPane) ){
-                frame = (Pane)node;  
+        for (Node node : children) {
+            if (node instanceof Pane && !(node instanceof GridPane)) {
+                frame = (Pane) node;
             }
         }
-        
-        for(int x = 0; x < 50; x++){
-            for(int y = 0; y < 40; y++){
-                StackPane cell = StackPaneBuilder.create().layoutX(x*10).layoutY(y*10).prefHeight(10).prefWidth(10).styleClass("frame.css").build();
-                             
+
+        for (int x = 0; x < 50; x++) {
+            for (int y = 0; y < 40; y++) {
+                StackPane cell = StackPaneBuilder.create().layoutX(x * 10).layoutY(y * 10).prefHeight(10).prefWidth(10).styleClass("frame.css").build();
+
                 frame.getChildren().add(cell);
-                
+
                 boardMap.put(x + " " + y, cell);
             }
         }
-        
+
         board = new Board(controller, boardMap, 50, 40);
-        
+
         controller.initialize(board, this);
-        
+
         Scene scene = new Scene(root);
-        
+
         primaryStage.setTitle("Predator and Prey");
         primaryStage.setScene(scene);
-        primaryStage.setOnCloseRequest(e -> {FpsCalculator.kill();});
+        primaryStage.setOnCloseRequest(e -> {
+            FpsCalculator.kill();
+        });
         primaryStage.show();
-        
+        board.update();
         timeline.play();
     }
-    
-    public void iterateBoard(){
-        if(running){
+
+    public void iterateBoard() {
+        if (running) {
             board.update();
             framesRendered++;
         }
     }
-    
-    public void updateUI(){
+
+    public void updateUI() {
         controller.update();
     }
 
@@ -140,21 +140,20 @@ public class PredatorAndPrey extends Application {
 
         Thread thread = new Thread(new FpsCalculator());
         thread.start();
-        
-        
+
         launch(args);
     }
- 
-    public static synchronized int getFramesCount(){
+
+    public static synchronized int getFramesCount() {
         return framesRendered;
     }
-    
-    public static synchronized void setFramesCount(int value){
+
+    public static synchronized void setFramesCount(int value) {
         framesRendered = value;
     }
-    
-    public static void setCalculatedFps(int value){
+
+    public static void setCalculatedFps(int value) {
         calculatedFPS = value;
     }
-    
+
 }
