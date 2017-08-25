@@ -21,35 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package at.bitflip.predatorandprey.tile;
+package at.bitflip.predatorandprey.automata.creatures;
 
 /**
  *
  * @author Emanuel Gitterle <emanuel.gitterle@bitflip.at>
  */
-public class Prey extends Tile{
+public abstract class Creature {
     
-    final String style = "-fx-background-color: green; -fx-border-color: black; -fx-border-width: 0.1;";
+    int health;
     
-    Integer health;
-    
-    public Prey(){
-        health = 100;
+    public void kill(){
+        
     }
     
-    public void update(){
-        health += 10;
-        if(health > 200)
-            this.replicate();
+    public Pair move(){
+        
     }
     
     public void replicate(){
         
     }
-    
-    @Override
-    public String getStyle(){
-        return style;
-    }
-    
 }

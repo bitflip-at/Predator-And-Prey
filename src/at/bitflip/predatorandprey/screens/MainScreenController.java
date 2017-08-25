@@ -23,17 +23,16 @@
  */
 package at.bitflip.predatorandprey.screens;
 
-import at.bitflip.predatorandprey.utils.Pair;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.Axis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 
 /**
@@ -43,15 +42,12 @@ import javafx.scene.layout.Pane;
  */
 public class MainScreenController implements Initializable {
 
-    /**
-     * fields
-     */
     private Integer generation;
     private Integer predators;
     private Integer preys;
 
-    private XYChart.Series prey;
-    private XYChart.Series pred;
+    private XYChart.Series preyData;
+    private XYChart.Series predData;
     
     private Board board;
     
@@ -74,11 +70,16 @@ public class MainScreenController implements Initializable {
     private Pane frame;
     
     @FXML
-    private Button run;
+    private Button runBtn;
     @FXML
-    private Button pause;
+    private Button pauseBtn;
     @FXML
-    private Button step;
+    private Button stepBtn;
+    
+    @FXML
+    private Slider preySlider;
+    @FXML
+    private Slider predSlider;
     
     /**
      * Initializes the controller class.
@@ -89,20 +90,18 @@ public class MainScreenController implements Initializable {
         predators = 0;
         preys = 0;
        
-        //xAxis.setLabel("Generations");
-        
-        prey = new XYChart.Series();
-        pred = new XYChart.Series();
+        preyData = new XYChart.Series();
+        predData = new XYChart.Series();
                     
-        prey.setName("Preys");
-        pred.setName("Predators");
+        preyData.setName("Preys");
+        predData.setName("Predators");
         
-        chart.getData().add(prey);
-        chart.getData().add(pred);
-       
+        chart.getData().add(preyData);
+        chart.getData().add(predData);
+        
         chart.setTitle("Population");
         chart.setCreateSymbols(false);
-        
+                
         this.board = board;
     }
     
@@ -110,11 +109,11 @@ public class MainScreenController implements Initializable {
     public void update(){
         generation++;
         
-        preys = board.getP(true);
-        predators = board.getP(false);
+        preys = board.getPreyCount();
+        predators = board.getPredCount();
         
-        prey.getData().add(new XYChart.Data(generation, preys));
-        pred.getData().add(new XYChart.Data(generation, predators));
+        preyData.getData().add(new XYChart.Data(generation, preys));
+        predData.getData().add(new XYChart.Data(generation, predators));
         
         GenLabel.setText(generation.toString());
         PredLabel.setText(predators.toString());
@@ -124,6 +123,34 @@ public class MainScreenController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         
+    }
+
+    public Button getRunBtn() {
+        return runBtn;
+    }
+
+    public Button getPauseBtn() {
+        return pauseBtn;
+    }
+
+    public Button getStepBtn() {
+        return stepBtn;
+    }
+
+    public Slider getPreySlider() {
+        return preySlider;
+    }
+
+    public Slider getPredSlider() {
+        return predSlider;
+    }
+
+    public double getPreySpawnRate(){
+        return preySlider.getValue();
+    }
+    
+    public double getPredSpawnRate(){
+        return predSlider.getValue();
     }
     
 }

@@ -95,7 +95,6 @@ public class PredatorAndPrey extends Application {
         for(int x = 0; x < 50; x++){
             for(int y = 0; y < 40; y++){
                 StackPane cell = StackPaneBuilder.create().layoutX(x*10).layoutY(y*10).prefHeight(10).prefWidth(10).styleClass("frame.css").build();
-                
                              
                 frame.getChildren().add(cell);
                 
@@ -103,9 +102,8 @@ public class PredatorAndPrey extends Application {
             }
         }
         
-        board = new Board(frame, boardMap, 50, 40);
+        board = new Board(controller, boardMap, 50, 40);
         
-        board.initialize(0.4, 0.2);
         controller.initialize(board);
         
         Scene scene = new Scene(root);

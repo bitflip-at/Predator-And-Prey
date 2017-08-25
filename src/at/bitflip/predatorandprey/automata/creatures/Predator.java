@@ -21,37 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package at.bitflip.predatorandprey.tile;
+package at.bitflip.predatorandprey.automata.creatures;
 
 /**
  *
  * @author Emanuel Gitterle <emanuel.gitterle@bitflip.at>
  */
-public class Tile {
+public class Predator extends Creature{
     
-    private TileType type;
-
-    public Tile(TileType type){
-        this.type = type;
-    }
-
-    public TileType getType() {
-        return type;
-    }
-
-    public void setType(TileType type) {
-        this.type = type;
-    }
-    
-    public String getStyle(){
-        switch(type){
-            case PREY:
-                return "-fx-background-color: green; -fx-border-color: black; -fx-border-width: 0.1;";
-            case PREDATOR:
-                return "-fx-background-color: red; -fx-border-color: black; -fx-border-width: 0.1;";
-            case EMPTY:
-            default:
-                return "-fx-background-color: white;";
-        }
-    }
 }
