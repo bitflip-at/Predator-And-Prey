@@ -36,10 +36,10 @@ public class Automata {
 
     private static final int STARTHP = 100;
     private static final int PREYPTURN = 5;
-    private static final int PREDPTURN = -5;
-    private static final int REPHP = 70;
+    private static final int PREDPTURN = -10;
+    private static final int REPHP = 90;
     private static final double PREYSPAWNRATE = 0.80;
-    private static final double PREDSPAWNRATE = 0.60;
+    private static final double PREDSPAWNRATE = 0.30;
 
     private final int sizeX;
     private final int sizeY;
