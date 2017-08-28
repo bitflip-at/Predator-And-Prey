@@ -33,59 +33,58 @@ import javafx.scene.layout.StackPane;
  * @author Emanuel Gitterle <emanuel.gitterle@bitflip.at>
  */
 public class Board {
-    
+
     private Tile[][] board;
     private final Map<String, StackPane> boardMap;
-    
+
     private final MainScreenController controller;
-    
+
     private final int sizeX;
     private final int sizeY;
-    
+
     private final Automata automata;
 
-    
-    public Board(MainScreenController controller, Map<String, StackPane> boardMap, int x, int y){
+    public Board(MainScreenController controller, Map<String, StackPane> boardMap, int x, int y) {
         this.controller = controller;
         this.sizeX = x;
         this.sizeY = y;
         this.boardMap = boardMap;
-        
+
         board = new Tile[x][y];
-        
+
         automata = new Automata(sizeX, sizeY, controller.getPreySpawnRate(), controller.getPredSpawnRate());
     }
-    
-    public void update(){
+
+    public void update() {
         board = automata.step();
         render();
     }
-    
-    private void render(){
-        for(int x = 0; x < this.sizeX; x++){
-            for(int y = 0; y < this.sizeY; y++){
-                
-                StackPane cell = boardMap.get(x + " " + y );
+
+    private void render() {
+        for (int x = 0; x < this.sizeX; x++) {
+            for (int y = 0; y < this.sizeY; y++) {
+
+                StackPane cell = boardMap.get(x + " " + y);
                 cell.getStyleClass().clear();
-                
+
                 cell.setStyle(board[x][y].getStyle());
             }
         }
     }
-    
-    public void updateValues(double preySpawnRate, double predSpawnRate){
-        automata.updateValues(preySpawnRate, predSpawnRate);
+
+    public void updateValues(double preyBirthRate, double predBirthRate) {
+        automata.updateValues(preyBirthRate, predBirthRate);
     }
-    
-    public int getPreyCount(){
+
+    public int getPreyCount() {
         return automata.getPreyCount();
     }
-    
-    public int getPredCount(){
+
+    public int getPredCount() {
         return automata.getPredCount();
     }
-    
-    public int getGeneration(){
+
+    public int getGeneration() {
         return automata.getGeneration();
     }
 }

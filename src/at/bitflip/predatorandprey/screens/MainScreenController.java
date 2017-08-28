@@ -43,18 +43,18 @@ import javafx.scene.layout.Pane;
  * @author Emanuel Gitterle <emanuel.gitterle@bitflip.at>
  */
 public class MainScreenController implements Initializable {
-    
+
     private Integer generation;
     private Integer predators;
     private Integer preys;
 
     private XYChart.Series preyData;
     private XYChart.Series predData;
-    
+
     private Board board;
-    
+
     private PredatorAndPrey Main;
-    
+
     @FXML
     private Label GenLabel;
     @FXML
@@ -63,30 +63,30 @@ public class MainScreenController implements Initializable {
     private Label PreyLabel;
     @FXML
     private Label fpsLabel;
-    
+
     @FXML
     private LineChart<Number, Number> chart;
-    
+
     @FXML
     private NumberAxis xAxis;
     @FXML
     private NumberAxis yAxis;
-    
+
     @FXML
     private Pane frame;
-    
+
     @FXML
     private Button runBtn;
     @FXML
     private Button pauseBtn;
     @FXML
     private Button stepBtn;
-    
+
     @FXML
     private Slider preySlider;
     @FXML
     private Slider predSlider;
-    
+
     /**
      * Initializes the controller class.
      */
@@ -95,71 +95,72 @@ public class MainScreenController implements Initializable {
         generation = 0;
         predators = 0;
         preys = 0;
-       
+
         preyData = new XYChart.Series();
         predData = new XYChart.Series();
-                    
+
         preyData.setName("Preys");
         predData.setName("Predators");
-        
+
         chart.getData().add(preyData);
         chart.getData().add(predData);
-        
+
         chart.setTitle("Population");
         chart.setCreateSymbols(false);
-                
+
         this.board = board;
         this.Main = Main;
     }
-    
+
     @FXML
-    public void onPreySliderAction(ActionEvent event){
-        board.updateValues(preySlider.getValue(), predSlider.getValue());
+    public void onPreySliderAction(ActionEvent event) {
+        board.updateValues((double) preySlider.getValue(), (double) predSlider.getValue());
     }
-    
+
     @FXML
-    public void onPredSliderAction(ActionEvent event){
-        board.updateValues(preySlider.getValue(), predSlider.getValue());
+    public void onPredSliderAction(ActionEvent event) {
+        board.updateValues((double) preySlider.getValue(), (double) predSlider.getValue());
     }
-    
+
     @FXML
-    public void onPauseBtnAction(ActionEvent event){
+    public void onPauseBtnAction(ActionEvent event) {
         Main.running = false;
         stepBtn.setDisable(false);
     }
-    
+
     @FXML
-    public void onStepBtnAction(ActionEvent event){
+    public void onStepBtnAction(ActionEvent event) {
         board.update();
         PredatorAndPrey.setFramesCount(PredatorAndPrey.getFramesCount() + 1);
     }
-    
+
     @FXML
-    public void onRunBtnAction(ActionEvent event){
+    public void onRunBtnAction(ActionEvent event) {
         Main.running = true;
     }
-   
-    public void update(){
-        
+
+    public void update() {
+
         generation = board.getGeneration();
         preys = board.getPreyCount();
         predators = board.getPredCount();
-        
+
         preyData.getData().add(new XYChart.Data(generation, preys));
         predData.getData().add(new XYChart.Data(generation, predators));
-        
+
         GenLabel.setText(generation.toString());
         PredLabel.setText(predators.toString());
         PreyLabel.setText(preys.toString());
         fpsLabel.setText(Main.calculatedFPS.toString());
-        
-        if(Main.running)
+
+        if (Main.running) {
             stepBtn.setDisable(true);
+        }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+
     }
 
     public Button getRunBtn() {
@@ -182,12 +183,12 @@ public class MainScreenController implements Initializable {
         return predSlider;
     }
 
-    public double getPreySpawnRate(){
+    public double getPreySpawnRate() {
         return preySlider.getValue();
     }
-    
-    public double getPredSpawnRate(){
+
+    public double getPredSpawnRate() {
         return predSlider.getValue();
     }
-    
+
 }

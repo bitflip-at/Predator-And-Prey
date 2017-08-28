@@ -35,10 +35,11 @@ import java.util.Random;
 public class Automata {
 
     private static final int STARTHP = 100;
-    private static final int PREYPTURN = 10;
-    private static final int PREDPTURN = -10;
-    private static final double PREYSPAWNRATE = 0.50;
-    private static final double PREDSPAWNRATE = 0.40;
+    private static final int PREYPTURN = 5;
+    private static final int PREDPTURN = -2;
+    private static final int REPHP = 70;
+    private static final double PREYSPAWNRATE = 0.80;
+    private static final double PREDSPAWNRATE = 0.60;
 
     private final int sizeX;
     private final int sizeY;
@@ -147,12 +148,9 @@ public class Automata {
                             health[i][j] = -1;
                             break;
                         case PREY:
-                            if (type == TileType.PREY) {
-                                //no space to move
-                            } else {
-                                //predator moves on prey
-                                field[x][y] = type;
-                                health[x][y] = hp + health[i][j];
+                            if (type == TileType.PREDATOR) {
+                                //prey moves on predator
+                                health[x][y] = hp + health[i][j] + 50;
                                 field[i][j] = TileType.EMPTY;
                                 health[i][j] = -1;
                                 preyCount--;
@@ -162,12 +160,10 @@ public class Automata {
                             if (type == TileType.PREY) {
                                 //predator moves on prey
                                 field[x][y] = type;
-                                health[x][y] = hp + health[i][j];
+                                health[x][y] = hp + health[i][j] + 50;
                                 field[i][j] = TileType.EMPTY;
                                 health[i][j] = -1;
                                 preyCount--;
-                            } else {
-                                //no space to move
                             }
                             break;
                     }
@@ -176,80 +172,50 @@ public class Automata {
         }
 
         // update health
+        // replicate if possible die if health < 0
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
 
                 switch (field[i][j]) {
                     case PREY:
                         health[i][j] += PREYPTURN;
-                        break;
-                    case PREDATOR:
-                        health[i][j] += PREDPTURN;
-                        break;
-                }
-            }
-        }
-
-        //replicate if possible die if health < 0
-        for (int i = 0; i < sizeX; i++) {
-            for (int j = 0; j < sizeY; j++) {
-
-                switch (field[i][j]) {
-                    case PREY:
-                        if (health[i][j] > (200 - preyBirthRate)) {
+                        if (health[i][j] > REPHP) {
                             if (replicate(i, j, field)) {
                                 preyCount++;
                             }
-                        } else if (health[i][j] < 0) {
-                            health[i][j] = -1;
-                            field[i][j] = TileType.EMPTY;
-                            preyCount--;
                         }
                         break;
                     case PREDATOR:
-                        if (health[i][j] > (200 - predBirthRate)) {
-                            if (replicate(i, j, field)) {
-                                predCount++;
-                            }
-                        } else if (health[i][j] < 0) {
+                        health[i][j] += PREDPTURN;
+                        if (health[i][j] < 0) {
                             health[i][j] = -1;
                             field[i][j] = TileType.EMPTY;
                             predCount--;
+                        } else if (health[i][j] > REPHP) {
+                            if (replicate(i, j, field)) {
+                                predCount++;
+                            }
                         }
                         break;
-                    default:
                 }
             }
         }
     }
 
     private boolean replicate(int i, int j, TileType[][] field) {
-        Pair pos = getNextFreePos(i, j, field);
-        if (pos != null) {
+        Pair pos = move(i, j);
+        int pX, pY;
+        pX = (int) pos.getX();
+        pY = (int) pos.getY();
+        if (field[pX][pY] == TileType.EMPTY) {
             int x = (int) pos.getX();
             int y = (int) pos.getY();
             field[x][y] = field[i][j];
             health[x][y] = STARTHP;
-            health[i][j] -= STARTHP;
+            health[i][j] -= REPHP;
             return true;
         }
         return false;
-    }
-
-    private Pair getNextFreePos(int i, int j, TileType field[][]) {
-
-        int x, y = 0;
-        for (x = (i - 1); x < (i + 1); x++) {
-            for (y = (j - 1); y < (j + 1); y++) {
-                if (x > 0 && y > 0) {
-                    if (field[x][y] == TileType.EMPTY) {
-                        return new Pair(x, y);
-                    }
-                }
-            }
-        }
-        System.err.println("No free position on: (" + x + "," + y + ")");
-        return null;
     }
 
     private Pair move(int x, int y) {
