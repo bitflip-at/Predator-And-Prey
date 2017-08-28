@@ -115,13 +115,11 @@ public class MainScreenController implements Initializable {
 
     @FXML
     public void onPreySliderAction(MouseEvent event) {
-        System.out.println("PreySlider: " + preySlider.getValue());
         board.updateValues((double) preySlider.getValue(), (double) predSlider.getValue());
     }
 
     @FXML
     public void onPredSliderAction(MouseEvent event) {
-        System.out.println("PredSlider: " + predSlider.getValue());
         board.updateValues((double) preySlider.getValue(), (double) predSlider.getValue());
     }
 
