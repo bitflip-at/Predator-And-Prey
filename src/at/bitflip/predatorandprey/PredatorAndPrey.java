@@ -58,7 +58,7 @@ public class PredatorAndPrey extends Application {
     private Board board;
     private MainScreenController controller;
 
-    public int timer = 200;
+    public int timer = 100;
     public boolean running = false;
     public static Integer calculatedFPS = 0;
     private static int framesRendered = 0;

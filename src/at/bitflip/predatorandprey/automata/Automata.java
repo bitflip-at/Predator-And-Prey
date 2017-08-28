@@ -35,8 +35,8 @@ import java.util.Random;
 public class Automata {
 
     private static final int STARTHP = 100;
-    private static final int PREYPTURN = 5;
-    private static final int PREDPTURN = -15;
+    private static final int PREYPTURN = 10;
+    private static final int PREDPTURN = -5;
     private static final int REPHP = 100;
     private static final double PREYSPAWNRATE = 0.80;
     private static final double PREDSPAWNRATE = 0.30;
