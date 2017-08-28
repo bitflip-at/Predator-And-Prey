@@ -55,7 +55,7 @@
             <Label text="Birthrate" />
             <Label text="Predator" GridPane.rowIndex="1" />
             <Label text="Prey" GridPane.rowIndex="2" />
-            <Slider fx:id="preySlider" onDragDetected="#onPreySliderAction" value="50.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Slider fx:id="preySlider" onDragDetected="#onPreySliderAction" onMouseDragged="#onPreySliderAction" value="50.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Slider fx:id="predSlider" onDragDetected="#onPredSliderAction" value="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>

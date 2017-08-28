@@ -35,6 +35,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 /**
@@ -113,12 +114,14 @@ public class MainScreenController implements Initializable {
     }
 
     @FXML
-    public void onPreySliderAction(ActionEvent event) {
+    public void onPreySliderAction(MouseEvent event) {
+        System.out.println("PreySlider: " + preySlider.getValue());
         board.updateValues((double) preySlider.getValue(), (double) predSlider.getValue());
     }
 
     @FXML
-    public void onPredSliderAction(ActionEvent event) {
+    public void onPredSliderAction(MouseEvent event) {
+        System.out.println("PredSlider: " + predSlider.getValue());
         board.updateValues((double) preySlider.getValue(), (double) predSlider.getValue());
     }
 
