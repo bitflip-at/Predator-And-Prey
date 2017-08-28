@@ -36,7 +36,7 @@ public class Automata {
 
     private static final int STARTHP = 100;
     private static final int PREYPTURN = 5;
-    private static final int PREDPTURN = -2;
+    private static final int PREDPTURN = -5;
     private static final int REPHP = 70;
     private static final double PREYSPAWNRATE = 0.80;
     private static final double PREDSPAWNRATE = 0.60;
@@ -150,6 +150,7 @@ public class Automata {
                         case PREY:
                             if (type == TileType.PREDATOR) {
                                 //prey moves on predator
+                                field[x][y] = type;
                                 health[x][y] = hp + health[i][j] + 50;
                                 field[i][j] = TileType.EMPTY;
                                 health[i][j] = -1;
@@ -159,7 +160,6 @@ public class Automata {
                         case PREDATOR:
                             if (type == TileType.PREY) {
                                 //predator moves on prey
-                                field[x][y] = type;
                                 health[x][y] = hp + health[i][j] + 50;
                                 field[i][j] = TileType.EMPTY;
                                 health[i][j] = -1;
@@ -208,10 +208,8 @@ public class Automata {
         pX = (int) pos.getX();
         pY = (int) pos.getY();
         if (field[pX][pY] == TileType.EMPTY) {
-            int x = (int) pos.getX();
-            int y = (int) pos.getY();
-            field[x][y] = field[i][j];
-            health[x][y] = STARTHP;
+            field[pX][pY] = field[i][j];
+            health[pX][pY] = STARTHP;
             health[i][j] -= REPHP;
             return true;
         }
