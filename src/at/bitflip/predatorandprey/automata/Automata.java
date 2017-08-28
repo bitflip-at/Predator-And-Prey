@@ -36,8 +36,8 @@ public class Automata {
 
     private static final int STARTHP = 100;
     private static final int PREYPTURN = 5;
-    private static final int PREDPTURN = -10;
-    private static final int REPHP = 90;
+    private static final int PREDPTURN = -15;
+    private static final int REPHP = 100;
     private static final double PREYSPAWNRATE = 0.80;
     private static final double PREDSPAWNRATE = 0.30;
 
@@ -173,13 +173,16 @@ public class Automata {
 
         // update health
         // replicate if possible die if health < 0
+        // minimum chance to spawn Prey/Predator depending on Birth rate
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
+
+                Random rand = new Random(System.nanoTime());
 
                 switch (field[i][j]) {
                     case PREY:
                         health[i][j] += PREYPTURN;
-                        if (health[i][j] > REPHP) {
+                        if (health[i][j] > REPHP + 100 - preyBirthRate) {
                             if (replicate(i, j, field)) {
                                 preyCount++;
                             }
@@ -191,10 +194,24 @@ public class Automata {
                             health[i][j] = -1;
                             field[i][j] = TileType.EMPTY;
                             predCount--;
-                        } else if (health[i][j] > REPHP) {
+                        } else if (health[i][j] > REPHP + 100 - predBirthRate) {
                             if (replicate(i, j, field)) {
                                 predCount++;
                             }
+                        }
+                        break;
+                    case EMPTY:
+                        double r = rand.nextDouble() * 1000000;
+                        if (r < preyBirthRate) {
+                            //spawn Prey
+                            field[i][j] = TileType.PREY;
+                            health[i][j] = STARTHP;
+                            preyCount++;
+                        } else if (r > 1000000 - predBirthRate) {
+                            //spawn Pred
+                            field[i][j] = TileType.PREDATOR;
+                            health[i][j] = STARTHP;
+                            predCount++;
                         }
                         break;
                 }
@@ -210,7 +227,7 @@ public class Automata {
         if (field[pX][pY] == TileType.EMPTY) {
             field[pX][pY] = field[i][j];
             health[pX][pY] = STARTHP;
-            health[i][j] -= REPHP;
+            health[i][j] = 20;
             return true;
         }
         return false;
