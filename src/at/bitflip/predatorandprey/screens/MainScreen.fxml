@@ -52,7 +52,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Spawnrate" />
+            <Label text="Birthrate" />
             <Label text="Predator" GridPane.rowIndex="1" />
             <Label text="Prey" GridPane.rowIndex="2" />
             <Slider fx:id="preySlider" onDragDetected="#onPreySliderAction" value="45.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
